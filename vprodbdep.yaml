@@ -15,26 +15,26 @@ spec:
           app vprodb
         spec:
           containers:
-            name: vprodb
+          - name: vprodb
             image: earlyspring/earlyspringdb:V1
             args:
-              - "ignore-db-dir=lost+found"
+              - "--ignore-db-dir=lost+found"
             volumeMounts:
-              mountPath: /var/lib/mysql
-              name: vpro-db-data
+              - mountPath: /var/lib/mysql
+                name: vpro-db-data
             ports:
-              name: vprodb-port
-              containerPort: 3306
+              - name: vprodb-port
+                containerPort: 3306
             env:
-              name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: db-pass
+              - name: MYSQL_ROOT_PASSWORD
+                valueFrom:
+                 secretKeyRef:
+                   name: app-secret
+                   key: db-pass
           nodeSelector:
             zone: us-west-1b
           volumes:
-            name: vpro-db-data
-            awsElasticBlockStore:
-              volumeID: vol-09da0d6b2da254158
-              fsType: ext4
+            - name: vpro-db-data
+              awsElasticBlockStore:
+                volumeID: vol-09da0d6b2da254158
+                fsType: ext4
